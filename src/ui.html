@@ -1,0 +1,361 @@
+<html>
+<head>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #ffffff;
+      color: #333333;
+    }
+
+    .container {
+      padding: 16px;
+    }
+
+    h2 {
+      margin: 0 0 16px 0;
+      font-size: 14px;
+      font-weight: 600;
+      color: #333333;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .controls-row {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .controls-row:first-child {
+      margin-bottom: 8px;
+    }
+
+    .controls-row:last-child button {
+      flex: 1;
+      justify-content: center;
+    }
+
+    pre {
+      margin: 0;
+      padding: 12px;
+      border-radius: 6px;
+      background: #f6f6f6;
+      overflow: auto;
+      height: 140px;
+      border: 1px solid #e5e5e5;
+    }
+    
+    code {
+      font-family: 'SF Mono', Monaco, Menlo, Consolas, monospace;
+      font-size: 12px;
+      line-height: 1.4;
+      white-space: pre;
+    }
+
+    select, button {
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1px solid #e5e5e5;
+      background: #ffffff;
+      color: #333333;
+      font-size: 12px;
+      cursor: pointer;
+      height: 32px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background: #18a0fb;
+      border: none;
+      color: white;
+      font-weight: 500;
+    }
+
+    button:hover {
+      background: #0d8ee0;
+    }
+
+    select {
+      min-width: 100px;
+      background-image: url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 12 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 8L3 5H9L6 8Z' fill='%23333333'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 8px center;
+      padding-right: 28px;
+      appearance: none;
+    }
+
+    .output-section {
+      margin-top: 16px;
+    }
+
+    .output-section h3 {
+      margin: 0 0 8px 0;
+      font-size: 12px;
+      font-weight: 600;
+      color: #333333;
+    }
+
+    .output-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .copy-button {
+      background: transparent;
+      border: none;
+      padding: 4px;
+      cursor: pointer;
+      color: #333333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+    }
+
+    .copy-button:hover {
+      background: #f0f0f0;
+    }
+
+    .copy-button svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* シンタックスハイライトのスタイル */
+    .tag {
+      color: #0d8ee0;
+    }
+
+    .attr {
+      color: #b31d28;
+    }
+
+    .string {
+      color: #24292e;
+    }
+
+    /* SCSSシンタックスハイライトのスタイル */
+    .scss-selector {
+      color: #0d8ee0;
+    }
+
+    .scss-punctuation {
+      color: #24292e;
+    }
+
+    .scss-property {
+      color: #b31d28;
+    }
+
+    .scss-value {
+      color: #1a7f37;
+    }
+
+    .icon-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+    }
+
+    .icon-button svg {
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>HTML/SCSS EXPORTER</h2>
+    <div class="controls">
+      <div class="controls-row">
+        <select id="frame-select"></select>
+        <button id="export" class="icon-button">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M3.5 2C2.67157 2 2 2.67157 2 3.5V12.5C2 13.3284 2.67157 14 3.5 14H12.5C13.3284 14 14 13.3284 14 12.5V6H12V12H4V4H10V2H3.5Z" fill="currentColor"/>
+            <path d="M6 8L8 10L10 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8 5.5V9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          Export
+        </button>
+        <button id="rename" class="icon-button">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M2 12.5V14H3.5L11.8733 5.62667L10.3733 4.12667L2 12.5Z" fill="currentColor"/>
+            <path d="M14 3.5L12.5 2L11.3733 3.12667L12.8733 4.62667L14 3.5Z" fill="currentColor"/>
+          </svg>
+          Rename
+        </button>
+      </div>
+      <div class="controls-row">
+        <button id="pc-layout" class="icon-button">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M2 4C2 3.44772 2.44772 3 3 3H13C13.5523 3 14 3.44772 14 4V10C14 10.5523 13.5523 11 13 11H3C2.44772 11 2 10.5523 2 10V4ZM4 9V5H12V9H4Z" fill="currentColor"/>
+            <path d="M6 12H10V13H6V12Z" fill="currentColor"/>
+          </svg>
+          PC Layout
+        </button>
+        <button id="sp-layout" class="icon-button">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M5 2C4.44772 2 4 2.44772 4 3V13C4 13.5523 4.44772 14 5 14H11C11.5523 14 12 13.5523 12 13V3C12 2.44772 11.5523 2 11 2H5ZM6 12V4H10V12H6Z" fill="currentColor"/>
+          </svg>
+          SP Layout
+        </button>
+      </div>
+    </div>
+    <div class="output-section">
+      <div class="output-header">
+        <h3>HTML Output</h3>
+        <button class="copy-button" onclick="copyToClipboard('html-output', this)">
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 4.5C2 3.67157 2.67157 3 3.5 3H8V4.5C8 5.32843 8.67157 6 9.5 6H11V11.5C11 12.3284 10.3284 13 9.5 13H3.5C2.67157 13 2 12.3284 2 11.5V4.5Z" fill="currentColor"/>
+            <path d="M8 3L11 6H9.5C8.67157 6 8 5.32843 8 4.5V3Z" fill="currentColor"/>
+            <path d="M5 1.5C5 0.671573 5.67157 0 6.5 0H11V1.5C11 2.32843 11.6716 3 12.5 3H14V8.5C14 9.32843 13.3284 10 12.5 10H11V8.5C11 7.67157 10.3284 7 9.5 7H8V5.5C8 4.67157 7.32843 4 6.5 4H5V1.5Z" fill="currentColor"/>
+          </svg>
+        </button>
+      </div>
+      <pre><code class="html" id="html-output"></code></pre>
+    </div>
+    <div class="output-section">
+      <div class="output-header">
+        <h3>SCSS Output</h3>
+        <button class="copy-button" onclick="copyToClipboard('scss-output', this)">
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 4.5C2 3.67157 2.67157 3 3.5 3H8V4.5C8 5.32843 8.67157 6 9.5 6H11V11.5C11 12.3284 10.3284 13 9.5 13H3.5C2.67157 13 2 12.3284 2 11.5V4.5Z" fill="currentColor"/>
+            <path d="M8 3L11 6H9.5C8.67157 6 8 5.32843 8 4.5V3Z" fill="currentColor"/>
+            <path d="M5 1.5C5 0.671573 5.67157 0 6.5 0H11V1.5C11 2.32843 11.6716 3 12.5 3H14V8.5C14 9.32843 13.3284 10 12.5 10H11V8.5C11 7.67157 10.3284 7 9.5 7H8V5.5C8 4.67157 7.32843 4 6.5 4H5V1.5Z" fill="currentColor"/>
+          </svg>
+        </button>
+      </div>
+      <pre><code class="scss" id="scss-output"></code></pre>
+    </div>
+  </div>
+
+  <script>
+    // シンプルなHTMLハイライト関数
+    function highlightHTML(html) {
+      // 一度エスケープ
+      let escaped = html
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+
+      // タグ、属性、文字列を順番にハイライト
+      return escaped
+        // 開始タグ全体をマッチ
+        .replace(/&lt;([a-zA-Z0-9-]+)([^&]*?)&gt;/g, (match, tag, attrs) => {
+          // 属性をハイライト
+          const highlightedAttrs = attrs.replace(/([a-zA-Z-]+)="([^"]+)"/g, 
+            '<span class="attr">$1</span>="<span class="string">$2</span>"'
+          );
+          return `&lt;<span class="tag">${tag}</span>${highlightedAttrs}&gt;`;
+        })
+        // 終了タグ
+        .replace(/&lt;\/([a-zA-Z0-9-]+)&gt;/g, '&lt;/<span class="tag">$1</span>&gt;');
+    }
+
+    // SCSSのハイライト関数
+    function highlightSCSS(scss) {
+      return scss
+        // セレクタのハイライト
+        .replace(/([.#]?[\w-]+)(\s*[,{])/g, '<span class="scss-selector">$1</span>$2')
+        // プロパティと値のハイライト
+        .replace(/(\s+)([\w-]+)(\s*:\s*)([^;]+)(;?)/g, '$1<span class="scss-property">$2</span>$3<span class="scss-value">$4</span>$5')
+        // 中括弧のハイライト
+        .replace(/([{}])/g, '<span class="scss-punctuation">$1</span>');
+    }
+
+    // フレーム一覧を表示する関数
+    function updateFrameSelect(frames) {
+      const select = document.getElementById('frame-select');
+      select.innerHTML = frames.map(frame =>
+        `<option value="${frame.id}">${frame.name}</option>`
+      ).join('');
+    }
+
+    // HTMLとSCSSをハイライト表示する関数
+    function updateOutput(html, scss) {
+      const htmlOutput = document.getElementById('html-output');
+      const scssOutput = document.getElementById('scss-output');
+      htmlOutput.innerHTML = highlightHTML(html);
+      scssOutput.innerHTML = highlightSCSS(scss);
+    }
+
+    // 初期表示時にフレーム一覧を取得
+    parent.postMessage({ pluginMessage: { type: 'get-frames' } }, '*');
+
+    // プラグインからのメッセージを受け取る
+    window.onmessage = (event) => {
+      const msg = event.data.pluginMessage;
+      if (msg.type === 'frames-list') {
+        updateFrameSelect(msg.frames);
+      } else if (msg.type === 'export-output') {
+        updateOutput(msg.html, msg.scss);
+      }
+    };
+
+    document.getElementById('export').onclick = () => {
+      const frameId = document.getElementById('frame-select').value;
+      parent.postMessage({ pluginMessage: { type: 'export', frameId } }, '*');
+    }
+
+    // レイヤー名変更ボタンのクリックハンドラ
+    document.getElementById('rename').onclick = () => {
+      const frameId = document.getElementById('frame-select').value;
+      parent.postMessage({ pluginMessage: { type: 'rename', frameId } }, '*');
+    }
+
+    // SPレイアウトボタンのクリックハンドラ
+    document.getElementById('sp-layout').onclick = () => {
+      const frameId = document.getElementById('frame-select').value;
+      parent.postMessage({ pluginMessage: { type: 'sp-layout', frameId } }, '*');
+    }
+
+    // PCレイアウトボタンのクリックハンドラ
+    document.getElementById('pc-layout').onclick = () => {
+      const frameId = document.getElementById('frame-select').value;
+      parent.postMessage({ pluginMessage: { type: 'pc-layout', frameId } }, '*');
+    }
+
+    // コピー機能の実装
+    function copyToClipboard(elementId, button) {
+      const element = document.getElementById(elementId);
+      const text = element.textContent;
+      
+      try {
+        // テキストエリアを作成してコピー
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        
+        // コピー成功時の視覚的フィードバック
+        const originalColor = button.style.color;
+        button.style.color = '#18a0fb';
+        setTimeout(() => {
+          button.style.color = originalColor;
+        }, 500);
+
+        // Figmaの通知を表示
+        parent.postMessage({ 
+          pluginMessage: { 
+            type: 'show-notification',
+            message: `${elementId === 'export-output' ? 'HTML' : 'SCSS'} をコピーしました`
+          } 
+        }, '*');
+      } catch (err) {
+        console.error('Failed to copy text:', err);
+      }
+    }
+  </script>
+</body>
+</html>

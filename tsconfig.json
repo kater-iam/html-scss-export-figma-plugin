@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "moduleResolution": "node",
+    "types": ["vite/client", "node", "@figma/plugin-typings"],
+    "lib": ["es6", "dom"],
+    "strict": true
+  }
+}

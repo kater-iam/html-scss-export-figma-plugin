@@ -1,0 +1,23 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.is_sp {
+    display: none;
+}
+
+.is_pc {
+    display: block; 
+}
+
+@media (max-width: 425px) {
+    .is_sp {
+        display: block;
+    }
+
+    .is_pc {
+        display: none;
+    }
+}

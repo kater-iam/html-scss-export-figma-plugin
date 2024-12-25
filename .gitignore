@@ -1,0 +1,5 @@
+node_modules
+dist   
+.cursorrules
+manifest.json
+.DS_Store
